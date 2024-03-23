@@ -1,12 +1,15 @@
 /* eslint-disable react/jsx-key */
 import { createFrames, Button } from 'frames.js/next'
 
+const appBasePath = process.env.VERCEL_URL ?? ''
+
 const frames = createFrames({
-  basePath: '/api/frames',
+  basePath: `${appBasePath}/api/frames`,
   initialState: {
     count: 0,
   },
 })
+
 const handleRequest = frames(async (ctx) => {
   console.log(ctx)
   return {
