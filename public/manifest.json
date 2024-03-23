@@ -1,0 +1,23 @@
+{
+  "name": "Sr. Degen",
+  "short_name": "Sr. Degen",
+  "description": "Your trustworthy and legend-telling bartender",
+  "icons": [
+    {
+      "src": "/images/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#3730a3",
+  "orientation": "portrait",
+  "display": "standalone",
+  "scope": "/pages/",
+  "theme_color": "#3730a3"
+}
