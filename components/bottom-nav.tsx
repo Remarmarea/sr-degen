@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { UserIcon, WalletIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline'
 
 const BottomNav = () => {
-  const router = useRouter()
+  const pathname = usePathname()
 
   return (
     <div className="sm:hidden">
@@ -13,7 +13,7 @@ const BottomNav = () => {
             <Link key={label} href={href}>
               <span
                 className={`flex h-full w-full flex-col items-center justify-center space-y-1 ${
-                  router.pathname === href ? 'text-indigo-500' : 'text-gray-600'
+                  pathname === href ? 'text-indigo-500' : 'text-gray-600'
                 }`}
               >
                 {icon}
