@@ -18,6 +18,7 @@ const SR_DEGEN_ADDRESS_BASE_SEP = '0xf62b1d2aab57401ACbCDcD4793De7628eB0b9Fa9'
 export async function POST(req: NextRequest): Promise<NextResponse<TransactionTargetResponse>> {
   const json = await req.json()
 
+  console.log(json)
   const frameMessage = await getFrameMessage(json)
 
   if (!frameMessage) {
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<TransactionTa
   const calldata = encodeFunctionData({
     abi: SrDegenDrinkABI,
     functionName: 'mint',
-    args: [mintToAddress, 1n, 1n],
+    args: [mintToAddress, 1n, 1n, 'ipfs://QmawtkC19radLYNmofzF3HcK7UfoaaGhCiFcMq9L4sjbkz'],
   })
 
   const publicClient = createPublicClient({

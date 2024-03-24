@@ -10,7 +10,7 @@ import { sepolia } from 'viem/chains'
 const ZORA_COLLECTION_ADDRESS = '0xf511594f3fa481cc34461eb6300f0803f96b5111'
 
 const frames = createFrames({
-  basePath: '/api/frames/drink/mint-drink-tx',
+  basePath: '/api/frames/drink/approve-tx/mint-drink-tx',
   middleware: [
     farcasterHubContext(),
     openframes({
@@ -36,17 +36,17 @@ const frames = createFrames({
 const handleRequest = frames(async (ctx) => {
   if (ctx.message?.transactionId) {
     return {
-      image: (
-        <div tw="bg-purple-800 text-white w-full h-full justify-center items-center flex">
-          Transaction submitted! {ctx.message.transactionId}
-        </div>
-      ),
+      image:
+        'https://purple-objective-cockroach-217.mypinata.cloud/ipfs/Qmd7yRgvdRWeSxRTmC8Cd5aXKwgw3hKJcuf5JfqjYPae1h',
       imageOptions: {
         aspectRatio: '1:1',
       },
       buttons: [
         <Button action="link" target={`https://www.onceupon.gg/tx/${ctx.message.transactionId}`}>
-          View on block explorer
+          OpenSea
+        </Button>,
+        <Button action="link" target={`https://www.onceupon.gg/tx/${ctx.message.transactionId}`}>
+          Block Explorer
         </Button>,
       ],
     }

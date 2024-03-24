@@ -5,12 +5,17 @@ import { createFrames } from 'frames.js/next'
 import { farcasterHubContext, openframes } from 'frames.js/middleware'
 import { getXmtpFrameMessage, isXmtpFrameActionPayload } from 'frames.js/xmtp'
 import { createPublicClient, encodeFunctionData, getContract, http } from 'viem'
-import { sepolia } from 'viem/chains'
+import { baseSepolia } from 'viem/chains'
 
-const ZORA_COLLECTION_ADDRESS = '0xf511594f3fa481cc34461eb6300f0803f96b5111'
+const SR_DEGEN_DRINK_ADDRESS = '0x67DF1Fe7DFb1b5F3F6318E429A5dC8dF2D2CD8B8'
+const ERC_20_ADDRESS = '0xd66cd7D7698706F8437427A3cAb537aBc12c8C88'
 
 const frames = createFrames({
-  basePath: '/api/frames/drink/mint-drink-tx',
+  basePath: '/api/frames/drink/approve-tx',
+  initialState: {
+    ipfs: '',
+    imageUrl: '',
+  },
   middleware: [
     farcasterHubContext(),
     openframes({
@@ -34,6 +39,8 @@ const frames = createFrames({
 })
 
 const handleRequest = frames(async (ctx) => {
+  ctx.state.ipfs = ctx.searchParams.ipfs ?? ''
+  ctx.state.imageUrl = ctx.searchParams.imageUrl ?? ''
   if (ctx.message?.transactionId) {
     return {
       image: (
@@ -47,6 +54,9 @@ const handleRequest = frames(async (ctx) => {
       buttons: [
         <Button action="link" target={`https://www.onceupon.gg/tx/${ctx.message.transactionId}`}>
           View on block explorer
+        </Button>,
+        <Button action="tx" target="/mint-drink-tx" post_url="/mint-drink-tx/frames">
+          Buy Drink
         </Button>,
       ],
     }

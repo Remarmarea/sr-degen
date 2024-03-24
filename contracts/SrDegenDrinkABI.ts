@@ -2,6 +2,11 @@ export const SrDegenDrinkABI = [
   {
     inputs: [
       {
+        internalType: 'contract ERC20',
+        name: 'token',
+        type: 'address',
+      },
+      {
         internalType: 'address',
         name: 'initialOwner',
         type: 'address',
@@ -148,6 +153,13 @@ export const SrDegenDrinkABI = [
     type: 'event',
   },
   {
+    inputs: [],
+    name: '_withdraw',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
@@ -199,6 +211,87 @@ export const SrDegenDrinkABI = [
     inputs: [
       {
         internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'balances',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'supply',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'calculatePrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'exists',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+    ],
+    name: 'getTokenUri',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
         name: 'account',
         type: 'address',
       },
@@ -223,18 +316,46 @@ export const SrDegenDrinkABI = [
     inputs: [
       {
         internalType: 'address',
-        name: 'to',
+        name: 'account',
         type: 'address',
       },
       {
         internalType: 'uint256',
-        name: 'tokenId',
+        name: 'id',
         type: 'uint256',
       },
       {
         internalType: 'uint256',
         name: 'amount',
         type: 'uint256',
+      },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'string',
+        name: 'CID',
+        type: 'string',
       },
     ],
     name: 'mint',
@@ -368,12 +489,44 @@ export const SrDegenDrinkABI = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'totalSupply',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'address',
         name: 'newOwner',
         type: 'address',
       },
     ],
     name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'contract ERC20',
+        name: 'token',
+        type: 'address',
+      },
+    ],
+    name: 'updateERC20',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -395,6 +548,19 @@ export const SrDegenDrinkABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'withdraw',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ]

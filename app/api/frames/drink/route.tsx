@@ -2,6 +2,7 @@
 import { createFrames, Button } from 'frames.js/next'
 import { farcasterHubContext, openframes } from 'frames.js/middleware'
 import { getXmtpFrameMessage, isXmtpFrameActionPayload } from 'frames.js/xmtp'
+import axios from 'axios'
 
 const imagesArray = [
   { name: 'chat', url: 'https://i.ibb.co/qWdnp6r/SRDEGEN2.jpg', text: 'wanna talk about it?' },
@@ -19,6 +20,8 @@ const frames = createFrames({
     reason: '',
     base: '',
     secretIngredient: '',
+    imageUrl: '',
+    ipfs: '',
   },
   middleware: [
     farcasterHubContext(),
@@ -124,42 +127,51 @@ const handleRequest = frames(async (ctx) => {
         </Button>,
       ],
       textInput: imagesArray[pageIndex].text,
+      headers: {
+        // Max cache age of 20 seconds
+        'Cache-Control': 'max-age=20',
+      },
     }
   }
 
   if (pageIndex === 3) {
     ctx.state.base = ctx.searchParams.value ?? ''
+
+    const apiEndpoint = `${process.env.VERCEL_URL ?? 'http://localhost:3000'}/api/openai`
+    const response = await axios.post(apiEndpoint, {
+      emotions: ctx.state.feeling,
+      cocktail_type: ctx.searchParams.value ?? 'a cold beer in a mug',
+      time: 'twilight',
+    })
+    const { data } = response
+    console.log('response data>>>>>>>', data.imageIpfs)
+    console.log('IPFS LINK!!!', data.ipfs)
+    ctx.state.imageUrl = data.imageIpfs
+    ctx.state.ipfs = data.ipfs
+
     return {
-      image: imagesArray[pageIndex].url,
+      image:
+        'https://purple-objective-cockroach-217.mypinata.cloud/ipfs/Qmd7yRgvdRWeSxRTmC8Cd5aXKwgw3hKJcuf5JfqjYPae1h',
       imageOptions: {
         aspectRatio: '1:1',
       },
       buttons: [
-        <Button
-          action="post"
-          target={{
-            query: { pageIndex: pageIndex - 1 },
-          }}
-        >
+        <Button action="post" target="/api/frames">
           Cancel
         </Button>,
-        <Button
-          action="post"
-          target={{
-            query: { pageIndex: pageIndex + 1 },
-          }}
-        >
-          Order $
+        <Button action="tx" target="/approve-tx" post_url="/approve-tx/frames">
+          Buy
         </Button>,
       ],
       textInput: imagesArray[pageIndex].text,
+      headers: {
+        // Max cache age of 20 seconds
+        'Cache-Control': 'max-age=20',
+      },
     }
   }
-
-  console.log('ctx>>>>>>>', ctx.state)
-  console.log('message for special ingredient>>>>>>>', ctx.message?.inputText)
   return {
-    image: imagesArray[pageIndex].url,
+    image: ctx.state.imageUrl,
     imageOptions: {
       aspectRatio: '1:1',
     },
@@ -172,8 +184,8 @@ const handleRequest = frames(async (ctx) => {
       >
         Cancel
       </Button>,
-      <Button action="tx" target="/mint-drink-tx" post_url="/mint-drink-tx">
-        420 $DEGEN
+      <Button action="tx" target="/approve-tx" post_url="/approve-tx/frames">
+        Approve
       </Button>,
     ],
     textInput: `${ctx.state.feeling} ${ctx.state.base}, ${ctx.message?.inputText}`,

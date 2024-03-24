@@ -14,10 +14,10 @@ const openai = new OpenAI({
 export async function POST(request: NextRequest) {
   const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT })
 
-  const { emotions, cocktail_type, time } = await request.json()
+  const { emotions, story, cocktail_type, time } = await request.json()
   const formatedPrompt = `Create an image of a luxurious ${cocktail_type} in
-   a clear glass, on a dark wooden bar table. The drink captures a singular emotions with its color:
-    ${emotions}  which varies in intensity to reflect the time of day: ${time}, translated into a palette of cool blues, mirroring the depth of the feeling.
+   a clear glass or bottle, on a dark wooden bar table. The drink captures a singular emotions with its color, given our current customer just vented this to us: ${story}.
+    The ${emotions}  which varies in intensity to reflect the time of day: ${time}, translated into a palette of cool blues, mirroring the depth of the feeling.
      The liquid is caught mid-splash, dynamic and full of motion, but the colors remain true to the emotion,
       without turning into a rainbow. In the background, the warm, subdued ambiance of a classic bar softly
        illuminates the scene, with the focus intensely on the glass that tells a story through its singular color theme`
@@ -79,7 +79,10 @@ export async function POST(request: NextRequest) {
     //@ts-expect-error
     const res = await pinata.pinJSONToIPFS(nftMetadata, options)
     return NextResponse.json(
-      { ipfs: res.IpfsHash },
+      {
+        ipfs: res.IpfsHash,
+        imageIpfs: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${image.IpfsHash}`,
+      },
       { status: 201 },
     )
   } catch (error) {
