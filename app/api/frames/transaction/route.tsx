@@ -36,18 +36,22 @@ export async function POST(req: NextRequest): Promise<NextResponse<TransactionTa
   })
 
   console.log(calldata)
-  // const publicClient = createPublicClient({
-  //   chain: baseSepolia,
-  //   transport: http(),
-  // })
+  const publicClient = createPublicClient({
+    chain: baseSepolia,
+    transport: http(),
+  })
 
-  //   const srDegenDrinkContract = getContract({
-  //     address: SR_DEGEN_ADDRESS as `0x${string}`,
-  //     abi: SrDrinkABI,
-  //     client: publicClient,
-  //   })
+  const srDegenDrinkContract = getContract({
+    address: SR_DEGEN_ADDRESS_BASE_SEP as `0x${string}`,
+    abi: SrDegenDrinkABI,
+    client: publicClient,
+  })
 
-  //   console.log('NO jalaaa', frameMessage.inputText)
+  const balance = await srDegenDrinkContract.read.balanceOf([frameMessage.inputText, 1n])
+
+  console.log(balance)
+
+  console.log('NO jalaaa', frameMessage.inputText)
 
   return NextResponse.json({
     chainId: 'eip155:84532', // Base Sepolia
