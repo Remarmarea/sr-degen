@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     //@ts-expect-error
     const res = await pinata.pinJSONToIPFS(nftMetadata, options)
     return NextResponse.json(
-      { ipfs: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${res.IpfsHash}` },
+      { ipfs: res.IpfsHash },
       { status: 201 },
     )
   } catch (error) {
