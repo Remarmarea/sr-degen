@@ -6,9 +6,7 @@ import { getXmtpFrameMessage, isXmtpFrameActionPayload } from 'frames.js/xmtp'
 const frames = createFrames({
   basePath: '/api/frames/counter',
   middleware: [
-    farcasterHubContext({
-      hubHttpUrl: 'hub.pinata.cloud',
-    }),
+    farcasterHubContext(),
     openframes({
       clientProtocol: {
         id: 'xmtp',
