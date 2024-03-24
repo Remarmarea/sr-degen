@@ -172,12 +172,7 @@ const handleRequest = frames(async (ctx) => {
       >
         Cancel
       </Button>,
-      <Button
-        action="post"
-        target={{
-          query: { pageIndex: pageIndex + 1 },
-        }}
-      >
+      <Button action="tx" target="/mint-drink-tx" post_url="/mint-drink-tx">
         420 $DEGEN
       </Button>,
     ],
