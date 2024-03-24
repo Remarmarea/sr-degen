@@ -1,10 +1,32 @@
 /* eslint-disable react/jsx-key */
 import { createFrames, Button } from 'frames.js/next'
-
-const appBasePath = process.env.VERCEL_URL ?? ''
+import { farcasterHubContext, openframes } from 'frames.js/middleware'
+import { getXmtpFrameMessage, isXmtpFrameActionPayload } from 'frames.js/xmtp'
 
 const frames = createFrames({
-  basePath: `${appBasePath}/api/frames`,
+  basePath: '/api/frames/counter',
+  middleware: [
+    farcasterHubContext({
+      hubHttpUrl: 'hub.pinata.cloud',
+    }),
+    openframes({
+      clientProtocol: {
+        id: 'xmtp',
+        version: '2024-02-09',
+      },
+      handler: {
+        isValidPayload: (body: JSON) => isXmtpFrameActionPayload(body),
+        getFrameMessage: async (body: JSON) => {
+          if (!isXmtpFrameActionPayload(body)) {
+            return undefined
+          }
+          const result = await getXmtpFrameMessage(body)
+
+          return { ...result }
+        },
+      },
+    }),
+  ],
   initialState: {
     count: 0,
   },
